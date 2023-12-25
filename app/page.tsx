@@ -1,20 +1,32 @@
-'use client'; 
+'use client'; // This is a client component 👈🏽
 
-import Image from 'next/image'
-import styles from './page.module.css'
+import styles from './page.module.css';
 import { useAppContext } from '@/src/app.provider';
-import { Table } from '@/components';
 
-export default function Home() {
-  const { dataTableState } = useAppContext();
+import { Table } from '@/components/table/table';
+import { Colors, Paddings } from '@/design_system';
 
-  const { jsonData } = dataTableState;
+export default function HomeView() {
+	const { dataTableState } = useAppContext();
 
-  return (
-    <main className={styles.main}>
-      <div>
-        {jsonData.length > 0 && <Table jsonData={jsonData} />}
-      </div>
-    </main>
-  )
+	const { jsonData } = dataTableState;
+
+	return (
+		<main
+			style={{
+				backgroundColor: Colors.background,
+				padding: Paddings.medium,
+				height: '100vh',
+			}}>
+
+			<div
+				style={{
+					backgroundColor: Colors.white,
+					padding: Paddings.medium,
+					borderRadius: 10,
+				}}>
+				{jsonData.length > 0 && <Table jsonData={jsonData} />}
+			</div>
+		</main>
+	);
 }
