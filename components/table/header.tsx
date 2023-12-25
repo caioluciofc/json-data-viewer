@@ -12,6 +12,7 @@ export function TableHeader({ jsonData } : Props) {
     return (
         <thead>
         <tr>
+          <th></th>
             {tableColumns.map((value, index) => (
               <th key={index}>{value}</th>
             ))}
