@@ -11,6 +11,14 @@ export function useDataTable() {
 		isLoading: false,
 	});
 
+	// initializate the state
+	useEffect(() => {
+		setState((currentState) => ({
+			...currentState,
+			jsonData: jsonData as JsonDataArray,
+		}));
+	}, []);
+
     //  ╔═╗╦═╗╦╔ ╗╔═╗╔╦╗╔═╗
 	//  ╠═╝╠╦╝║║ ║╠═╣ ║ ║╣
 	//  ╩  ╩╚═╩╚╝ ╩ ╩ ╩ ╚═╝
@@ -30,5 +38,5 @@ export function useDataTable() {
         //removeItem: _removeItem,
 	};
 
-
+    return [state, _actions_] as [typeof state, typeof _actions_];
 }

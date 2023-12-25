@@ -1,3 +1,5 @@
+'use client'; // This is a client component
+
 import { createContext, ReactNode, useContext } from "react";
 import DevelopmentError from "./errors/DevelopmentError";
 import { useDataTable } from "./states/data-table-state";
