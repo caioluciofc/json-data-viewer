@@ -5,8 +5,11 @@ import { JsonData } from '@/src/models';
 import { useAppContext } from '@/src/app.provider';
 import { IconPencil } from '@/design_system';
 import { Table } from '..';
+import { IconCrossMark } from '@/design_system';
 
 export function Row({ item } : { item : JsonData }) {
+    const { removeItem } = useAppContext()
+
     const [selected, setSelected] = useState(false);
   
     const _columns = Object.keys(item.data)
@@ -15,6 +18,10 @@ export function Row({ item } : { item : JsonData }) {
 
     function handleClick() {
       setSelected((selected) => !selected);
+    }
+
+    function _delete() {
+      removeItem(item);
     }
 
     return (
@@ -32,6 +39,11 @@ export function Row({ item } : { item : JsonData }) {
           {_columns.map((column) => (
             <td>{item.data[column]}</td>
           ))}
+        <td>
+          <div onClick={_delete}>
+            <IconCrossMark />
+          </div>
+        </td>
         </tr>
         {selected && _hasKids && (
           <tr>

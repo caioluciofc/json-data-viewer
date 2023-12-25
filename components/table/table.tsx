@@ -10,10 +10,6 @@ interface Props {
 
 export function Table({ jsonData } : Props) {
 
-    const tableColumns = Object.keys(jsonData[0].data)
-
-    console.log(jsonData)
-
     return (
         <table>
             <TableHeader jsonData={jsonData} />

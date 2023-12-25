@@ -7,15 +7,14 @@ interface Props {
 }
 
 export function TableHeader({ jsonData } : Props) {
-    const tableColumns = Object.keys(jsonData[0].data)
-
     return (
         <thead>
         <tr>
           <th></th>
-            {tableColumns.map((value, index) => (
+            {Object.keys(jsonData[0].data).map((value, index) => (
               <th key={index}>{value}</th>
             ))}
+          <th></th>
         </tr>
       </thead>
 
