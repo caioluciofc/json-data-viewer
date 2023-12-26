@@ -22,16 +22,16 @@ JavaScript
   
 */
 export class FontSizes {
-    /**
+	/**
       # large === 20
      */
-    static large = 20;
-    /**
+	static large = 20;
+	/**
       ## medium === 16
      */
-    static medium = 16;
-    /**
+	static medium = 16;
+	/**
       ### small === 14
      */
-    static small = 14;
-   }
+	static small = 14;
+}

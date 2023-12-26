@@ -3,7 +3,7 @@ import { JsonData, JsonDataArray } from '../models';
 import jsonData from '../../example-data.json';
 
 export function useDataTable() {
-    //  ╔═╗╔╦╗╔═╗╔╦╗╔═╗
+	//  ╔═╗╔╦╗╔═╗╔╦╗╔═╗
 	//  ╚═╗ ║ ╠═╣ ║ ║╣
 	//  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
 
@@ -22,7 +22,7 @@ export function useDataTable() {
 		}));
 	}, []);
 
-    //  ╔═╗╦═╗╦╔ ╗╔═╗╔╦╗╔═╗
+	//  ╔═╗╦═╗╦╔ ╗╔═╗╔╦╗╔═╗
 	//  ╠═╝╠╦╝║║ ║╠═╣ ║ ║╣
 	//  ╩  ╩╚═╩╚╝ ╩ ╩ ╩ ╚═╝
 	function _startLoading() {
@@ -33,7 +33,7 @@ export function useDataTable() {
 		setState((currentState) => ({ ...currentState, isLoading: false }));
 	}
 
-	function _removeItem(ancestors : number[]) {
+	function _removeItem(ancestors: number[]) {
 		_startLoading();
 		const _items = [...state.jsonData];
 
@@ -46,33 +46,39 @@ export function useDataTable() {
 
 		_stopLoading();
 	}
-	
-	function _findAndRemove(items : JsonDataArray, ancestors : number[]) : JsonDataArray {
+
+	function _findAndRemove(
+		items: JsonDataArray,
+		ancestors: number[],
+	): JsonDataArray {
 		let filteredItems;
 		if (ancestors.length === 1) {
 			filteredItems = items.filter((value, index) => {
-				return index !== ancestors[0]
+				return index !== ancestors[0];
 			}) as JsonDataArray;
 		} else {
 			filteredItems = items.map((item, index) => {
 				if (index === ancestors[0] && item.kids) {
 					const kids = Object.entries(item.kids).map(([key, value]) => {
 						const _kids = _findAndRemove(value.records, ancestors.slice(1));
-						return { [key] : {records : _kids}}
-					})
-					const result = kids.reduce((acc, cur) => ({ ...acc, ...cur}), {});
-					return { ...item, kids : result }
-				} else {return item}
-			})}
-		return filteredItems
+						return { [key]: { records: _kids } };
+					});
+					const result = kids.reduce((acc, cur) => ({ ...acc, ...cur }), {});
+					return { ...item, kids: result };
+				} else {
+					return item;
+				}
+			});
+		}
+		return filteredItems;
 	}
 
 	//  ╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
 	//  ╠═╣║   ║ ║║ ║║║║╚═╗
 	//  ╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
 	const _actions_ = {
-        removeItem: _removeItem,
+		removeItem: _removeItem,
 	};
 
-    return [state, _actions_] as [typeof state, typeof _actions_];
+	return [state, _actions_] as [typeof state, typeof _actions_];
 }

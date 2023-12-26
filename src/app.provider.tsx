@@ -1,51 +1,51 @@
 'use client'; // This is a client component
 
-import { createContext, ReactNode, useContext } from "react";
-import DevelopmentError from "./errors/DevelopmentError";
-import { useDataTable } from "./states/data-table-state";
-import { AppProviderType } from "./app.provider.types";
+import { createContext, ReactNode, useContext } from 'react';
+import DevelopmentError from './errors/DevelopmentError';
+import { useDataTable } from './states/data-table-state';
+import { AppProviderType } from './app.provider.types';
 
 export const AppContext = createContext<AppProviderType | undefined>(undefined);
 
 export function useAppContext() {
-    const context = useContext(AppContext);
+	const context = useContext(AppContext);
 
-    if (context === undefined) {
-        throw new DevelopmentError(
-            'You are trying to useAppContext outside an App Provider'
-        )
-    }
+	if (context === undefined) {
+		throw new DevelopmentError(
+			'You are trying to useAppContext outside an App Provider',
+		);
+	}
 
-    return context;
+	return context;
 }
 
 interface Props {
-    children: ReactNode;
+	children: ReactNode;
 }
 
-export default function AppProvider({ children } : Props) {
-    //  ╦╔╗╔╦╔╦╗╦╔═╗╦   ╔═╗╔╦╗╔═╗╔╦╗╔═╗╔═╗
+export default function AppProvider({ children }: Props) {
+	//  ╦╔╗╔╦╔╦╗╦╔═╗╦   ╔═╗╔╦╗╔═╗╔╦╗╔═╗╔═╗
 	//  ║║║║║ ║ ║╠═╣║   ╚═╗ ║ ╠═╣ ║ ║╣ ╚═╗
 	//  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝ ╚═╝ ╩ ╩ ╩ ╩ ╚═╝╚═╝
-    const [dataTableState, dataTableActions] = useDataTable();
+	const [dataTableState, dataTableActions] = useDataTable();
 
 	//  ╔═╗╔╦╗╔═╗╔╦╗╔═╗╔═╗
 	//  ╚═╗ ║ ╠═╣ ║ ║╣ ╚═╗
 	//  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝╚═╝
-    const AppStates = {
-        dataTableState,
-    };
+	const AppStates = {
+		dataTableState,
+	};
 
-    //  ╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
+	//  ╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
 	//  ╠═╣║   ║ ║║ ║║║║╚═╗
 	//  ╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
-    const AppActions = {
-        ...dataTableActions
-    }
+	const AppActions = {
+		...dataTableActions,
+	};
 
-    return (
-        <AppContext.Provider value={{ ...AppStates, ...AppActions }}>
-            {children}
-        </AppContext.Provider>
-    );
+	return (
+		<AppContext.Provider value={{ ...AppStates, ...AppActions }}>
+			{children}
+		</AppContext.Provider>
+	);
 }
