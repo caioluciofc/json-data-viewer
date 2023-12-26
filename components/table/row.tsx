@@ -21,7 +21,8 @@ export function Row({ item, index, ancestors = [] }: { item: JsonData, index : n
 	const _hasKids = Object.keys(item.kids ?? []).length > 0 ? true : false;
 	const _keys = item.kids ? Object.keys(item.data) : [];
 	const _kids = item.kids ? Object.values(item.kids)[0]?.records : [];
-	const _ancestors : number[] = [...ancestors, index]
+	const _kidsName = item.kids ? Object.keys(item.kids)[0] : "";
+	const _ancestors : number[] = [...ancestors, index];
 	function handleClick() {
 		setSelected((selected) => !selected);
 	}
@@ -56,7 +57,7 @@ export function Row({ item, index, ancestors = [] }: { item: JsonData, index : n
 					<td></td>
 					<td colSpan={_keys.length + 1}>
 						<div>
-							<Table jsonData={_kids} ancestors={_ancestors} tableName={_keys[0]}/>
+							<Table jsonData={_kids} ancestors={_ancestors} tableName={_kidsName}/>
 						</div>
 					</td>
 				</tr>
