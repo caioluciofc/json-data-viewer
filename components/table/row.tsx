@@ -12,7 +12,7 @@ import {
 } from '@/design_system';
 import { useAppContext } from '@/src/app.provider';
 
-export function Row({ item }: { item: JsonData }) {
+export function Row({ item, index, ancestors = [] }: { item: JsonData, index : number, ancestors : number[] }) {
 	const { removeItem } = useAppContext();
 
 	const [selected, setSelected] = useState(false);
@@ -21,13 +21,12 @@ export function Row({ item }: { item: JsonData }) {
 	const _hasKids = Object.keys(item.kids ?? []).length > 0 ? true : false;
 	const _keys = item.kids ? Object.keys(item.data) : [];
 	const _kids = item.kids ? Object.values(item.kids)[0]?.records : [];
-
+	const _ancestors : number[] = [...ancestors, index]
 	function handleClick() {
 		setSelected((selected) => !selected);
 	}
-
-  function _delete() {
-		removeItem(item);
+	function _delete() {
+		removeItem(_ancestors);
 	}
 
   return (
@@ -58,7 +57,7 @@ export function Row({ item }: { item: JsonData }) {
 					<td></td>
 					<td colSpan={_keys.length + 1}>
 						<div style={{ width: '100%' }}>
-							<Table jsonData={_kids} />
+							<Table jsonData={_kids} ancestors={_ancestors}/>
 						</div>
 					</td>
 				</tr>

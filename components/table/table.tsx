@@ -6,9 +6,10 @@ import { TableHeader } from '.';
 
 interface Props {
 	jsonData: JsonData[];
+	ancestors : number[];
 }
 
-export function Table({ jsonData }: Props) {
+export function Table({ jsonData, ancestors = [] }: Props) {
 	return (
 		<div style={{ width: '100%' }}>
 			<table
@@ -19,7 +20,7 @@ export function Table({ jsonData }: Props) {
 				<TableHeader jsonData={jsonData} />
 				<tbody>
 					{jsonData.map((value, index) => (
-						<Row key={JSON.stringify(value)} item={value} />
+						<Row key={JSON.stringify(value)} item={value} index={index} ancestors={ancestors}/>
 					))}
 				</tbody>
 			</table>

@@ -6,6 +6,9 @@ export function useDataTable() {
     //  ╔═╗╔╦╗╔═╗╔╦╗╔═╗
 	//  ╚═╗ ║ ╠═╣ ║ ║╣
 	//  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
+
+	// Since I'm using NEXT it would be better here to initialize with the JSONDATA
+	// Pre populated, so I can use better the serverside part of the
 	const [state, setState] = useState({
 		jsonData: [] as JsonDataArray,
 		isLoading: false,
@@ -30,13 +33,11 @@ export function useDataTable() {
 		setState((currentState) => ({ ...currentState, isLoading: false }));
 	}
 
-	function _removeItem(item: JsonData) {
+	function _removeItem(ancestors : number[]) {
 		_startLoading();
-
-		const _hash = JSON.stringify(item);
 		const _items = [...state.jsonData];
 
-		const result = _findAndRemove(_hash, _items);
+		const result = _findAndRemove(_items, ancestors);
 
 		setState((currentState) => ({
 			...currentState,
@@ -46,26 +47,23 @@ export function useDataTable() {
 		_stopLoading();
 	}
 	
-	function _findAndRemove(originalKey : string, items : JsonDataArray) : JsonDataArray {
-		let filteredItems = items.filter((value) => {
-			const __hash = JSON.stringify(value);
-			return __hash !== originalKey;
-		}) as JsonDataArray;
-
-		if (items.length === filteredItems.length) {
-			filteredItems = items.map((item) => {
-				if (item.kids) {
+	function _findAndRemove(items : JsonDataArray, ancestors : number[]) : JsonDataArray {
+		let filteredItems;
+		if (ancestors.length === 1) {
+			filteredItems = items.filter((value, index) => {
+				return index !== ancestors[0]
+			}) as JsonDataArray;
+		} else {
+			filteredItems = items.map((item, index) => {
+				if (index === ancestors[0] && item.kids) {
 					const kids = Object.entries(item.kids).map(([key, value]) => {
-						const _kids = _findAndRemove(originalKey, value.records);
-						return { [key] : { records : _kids }};
-					});
-
-					return { ...item, kids } as unknown as JsonData;
-				}
-				return item
-			})
-		}
-
+						const _kids = _findAndRemove(value.records, ancestors.slice(1));
+						return { [key] : {records : _kids}}
+					})
+					const result = kids.reduce((acc, cur) => ({ ...acc, ...cur}), {});
+					return { ...item, kids : result }
+				} else {return item}
+			})}
 		return filteredItems
 	}
 
