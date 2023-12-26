@@ -31,33 +31,32 @@ export function Row({ item, index, ancestors = [] }: { item: JsonData, index : n
 
   return (
 		<>
-			<tr style={{ height: 50 }}>
-				<td>
+			<tr className='bg-white border-y-2 hover:bg-gray-50'>
+				<td className="w-8 p-6">
 					{_hasKids && (
-						<div
-							style={{ padding: Paddings.micro }}
+						<div className="flex items-center"
 							onClick={() => handleClick()}>
 							{selected ? <ArrowDown /> : <ArrowRight />}
 						</div>
 					)}
 				</td>
 				{_columns.map((value, index) => (
-					<td key={index} style={{ fontSize: FontSizes.small }}>
+					<td key={index} className='text-sm'>
 						{item.data[value]}
 					</td>
 				))}
-				<td>
+				<td className="w-8 p-6">
 					<div onClick={_delete}>
 						<IconCrossMark />
 					</div>
 				</td>
 			</tr>
 			{selected && _kids?.length > 0 && (
-				<tr style={{ paddingLeft: '20px' }}>
+				<tr>
 					<td></td>
 					<td colSpan={_keys.length + 1}>
-						<div style={{ width: '100%' }}>
-							<Table jsonData={_kids} ancestors={_ancestors}/>
+						<div>
+							<Table jsonData={_kids} ancestors={_ancestors} tableName={_keys[0]}/>
 						</div>
 					</td>
 				</tr>
