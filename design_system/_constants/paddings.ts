@@ -21,20 +21,20 @@
   ```
 */
 export class Paddings {
-	/**
+  /**
    # large === 20
   */
-	static large = 20;
-	/**
+  static large = 20;
+  /**
    ## medium === 16
   */
-	static medium = 16;
-	/**
+  static medium = 16;
+  /**
    ### small === 12
   */
-	static small = 12;
-	/**
+  static small = 12;
+  /**
    ### micro === 6
   */
-	static micro = 6;
+  static micro = 6;
 }

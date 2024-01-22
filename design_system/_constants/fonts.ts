@@ -1,5 +1,5 @@
 /**
-  # JsonDataViewer App Font Sizes
+  # App Font Sizes
 
   <br/>
 
@@ -11,27 +11,28 @@
 
   ## How to use?
 
-  
 JavaScript
+
+
 
   const styles = StyleSheet.create({
     medium: {
       fontSize: FontSize.medium,
     },
   });
-  
+
 */
 export class FontSizes {
-	/**
+  /**
       # large === 20
      */
-	static large = 20;
-	/**
+  static large = 20;
+  /**
       ## medium === 16
      */
-	static medium = 16;
-	/**
+  static medium = 16;
+  /**
       ### small === 14
      */
-	static small = 14;
+  static small = 14;
 }
