@@ -22,9 +22,6 @@ interface AnswerQuestionResponse {
   result: string;
 }
 
-interface GetNextQuestionResponse {
-  question: Question;
-}
 
 async function enterQueue(socket: Socket, username: string): Promise<EnterQueueResponse> {
   return new Promise((resolve) => {

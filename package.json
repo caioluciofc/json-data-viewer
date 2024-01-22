@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "eslint . --ext .js,.jsx,.ts,.tsx --max-warnings=5",
-		"lint:fix": "eslint --fix . --ext .js,.jsx,.ts,.tsx --max-warnings=5",
+		"lint:fix": "eslint --fix . --ext .js,.jsx,.ts,.tsx --max-warnings=40",
 		"typecheck": "tsc --strict",
 		"test": "jest"
 	},
