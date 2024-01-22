@@ -4,6 +4,10 @@ import { toast } from 'react-hot-toast';
 import { Socket } from 'socket.io-client';
 import { gameService } from '../services/game.service';
 
+interface GetNextQuestionResponse {
+  question: Question;
+}
+
 interface Question {
   question: string;
   correctAnswer: string;
@@ -68,7 +72,7 @@ export default function useGameState() {
     }));
   }
 
-  function _setGameResult(gameResult: string | undefined) {
+  function _setGameResult(gameResult: 'win' | 'lost' | 'draw' | undefined) {
     setGameState((current) => ({
       ...current,
       gameResult,

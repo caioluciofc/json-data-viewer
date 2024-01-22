@@ -10,7 +10,6 @@ import { MoodFace } from '@/components';
 export default function TriviaGame() {
   const router = useRouter();
   const { gameState, socketState, answerQuestion, authState, clearGame } = useAppContext();
-  const delay = (ms: Number) => new Promise((res) => setTimeout(res, ms));
 
   function shuffleArray(array: string[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -21,7 +20,9 @@ export default function TriviaGame() {
   }
 
   function _answerQuestion(answer: string) {
-    answerQuestion(socketState.socket, answer, authState.userName);
+    if (socketState.socket) {
+      answerQuestion(socketState.socket, answer, authState.userName ?? "");
+    }
   }
 
   useEffect(() => {

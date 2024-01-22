@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { CustomStyle } from '@/src/models';
 import React from 'react';
 import { Colors, FontSizes, Paddings } from '..';

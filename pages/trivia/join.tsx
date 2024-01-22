@@ -13,7 +13,7 @@ export default function JoinGame() {
 
   useEffect(() => {
     if (!gameState.roomId) {
-      enterQueue(authState.userName);
+      enterQueue(authState.userName ?? "");
     }
   }, []);
 
@@ -24,8 +24,6 @@ export default function JoinGame() {
   }, [gameState.gameOn]);
 
   const router = useRouter();
-
-  console.log(gameState);
 
   return (
     <main style={styles.main}>
