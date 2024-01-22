@@ -2,6 +2,7 @@
 
 import { Colors, FontSizes, Paddings } from '@/design_system';
 import { CustomStyle } from '@/src/models';
+import React from 'react';
 
 export const styles: CustomStyle = {
   main: {
@@ -19,7 +20,7 @@ export const styles: CustomStyle = {
   header: {
     paddingBottom: Paddings.large,
   },
-  container: {
+  menu: {
     padding: Paddings.large,
     width: '70vw',
     maxWidth: 500,
@@ -33,11 +34,9 @@ export const styles: CustomStyle = {
     justifyContent: 'space-between',
   },
   button: {
-    width: '97%',
+    width: '100%',
     marginTop: Paddings.micro,
     minHeight: 50,
-    paddingLeft: Paddings.small,
-    paddingRight: Paddings.small,
     fontSize: FontSizes.large,
     color: Colors.white,
     textTransform: 'uppercase',
@@ -45,9 +44,9 @@ export const styles: CustomStyle = {
     borderRadius: 16,
     backgroundColor: Colors.primary,
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     textDecoration: 'none',
   },
 };

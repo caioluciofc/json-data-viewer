@@ -2,6 +2,7 @@
 
 import { Colors, FontSizes, Paddings } from '@/design_system';
 import { CustomStyle } from '@/src/models';
+import React from 'react';
 
 export const styles: CustomStyle = {
   main: {
@@ -19,7 +20,7 @@ export const styles: CustomStyle = {
   header: {
     paddingBottom: Paddings.large,
   },
-  menu: {
+  container: {
     padding: Paddings.large,
     width: '70vw',
     maxWidth: 500,

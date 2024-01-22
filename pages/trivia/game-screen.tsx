@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { Colors, IconCrossMark, PrimaryButton, TitleLarge } from '@/design_system';
-import { styles } from './_game-screen.style';
+import { styles } from '../../design_system/styles/_game-screen.style';
 import { useRouter } from 'next/router';
 import { useAppContext } from '@/src/app.provider';
 import { MoodFace } from '@/components';

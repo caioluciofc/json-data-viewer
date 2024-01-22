@@ -2,7 +2,7 @@
 
 import React, { createContext, ReactNode, useContext, useEffect } from 'react';
 import { PrimaryButton, TextButton, TextField, TitleLarge } from '@/design_system';
-import { styles } from './join.style';
+import { styles } from '../../design_system/styles/join.style';
 import { useRouter } from 'next/router';
 import { useAppContext } from '@/src/app.provider';
 import { MoodFace } from '@/components';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, Colors, TextButton, TitleLarge } from '@/design_system';
-import { styles } from './games.style';
+import { styles } from '../../design_system/styles/games.style';
 import { useRouter } from 'next/router';
 
 export default function Games() {

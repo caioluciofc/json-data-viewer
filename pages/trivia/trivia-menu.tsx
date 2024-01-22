@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { TitleLarge } from '@/design_system';
-import { styles } from './trivia.style';
+import { styles } from '../../design_system/styles/trivia.style';
 import Link from 'next/link';
 import { Avatar } from '@/components';
 import { useAppContext } from '@/src/app.provider';
