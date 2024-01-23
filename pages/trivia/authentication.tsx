@@ -11,9 +11,10 @@ import AppProvider from '@/src/app.provider';
 import { useRouter } from 'next/router';
 import { JumpingQuestion } from '../../components/jumping_question';
 import { TextField } from '@/design_system';
+import { OldMan } from '@/components/old_man_auth';
 
 export default function TriviaAuth() {
-  const { authState, signin } = useAppContext();
+  const { authState, signin, signup } = useAppContext();
 
   const router = useRouter();
 
@@ -21,7 +22,7 @@ export default function TriviaAuth() {
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSignin = async () => {
+  const handleSignIn = async () => {
     if (username === '' || password === '') {
       toast.error('Missing details!');
       return;
@@ -41,14 +42,28 @@ export default function TriviaAuth() {
     }
   };
 
+  const handleSignUp = async () => {
+    if (username === '' || password === '') {
+      toast.error('Missing details!');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await signup(username, password);
+      setIsSubmitting(false);
+      await signin(username, password)
+    } catch {
+      setIsSubmitting(false);
+      toast.error('An error has occurred!');
+    }
+  };
+
   return (
     <main style={styles.main}>
       <div style={styles.menu}>
-        <JumpingQuestion />
-
-        <div style={styles.header}>
-          <TitleLarge text="Trivia Master" />
-        </div>
+        <OldMan />
           <TextField 
             type='text'
             defaultValue=''
@@ -63,7 +78,12 @@ export default function TriviaAuth() {
             />
           <PrimaryButton
             text='Sign In'
-            onClick={() => handleSignin()}
+            onClick={() => handleSignIn()}
+            isLoading={isSubmitting}
+            />
+          <PrimaryButton
+            text='Sign Up'
+            onClick={() => handleSignUp()}
             isLoading={isSubmitting}
             />
       </div>

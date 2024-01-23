@@ -20,6 +20,7 @@ const styles: CustomStyle = {
   button: {
     width: '100%',
     marginTop: Paddings.micro,
+    margin: Paddings.small,
     minHeight: 50,
     fontSize: FontSizes.large,
     color: Colors.white,
