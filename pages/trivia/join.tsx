@@ -18,10 +18,11 @@ export default function JoinGame() {
   }, []);
 
   useEffect(() => {
-    if (gameState.gameOn) {
+    if (gameState.gameOn && gameState.players?.length === 2) {
+      console.log(gameState)
       router.push('/trivia/game-screen');
     }
-  }, [gameState.gameOn]);
+  }, [gameState.gameOn, gameState.players]);
 
   const router = useRouter();
 

@@ -32,6 +32,14 @@ export default function useWebsocketsState() {
     return socketState.socket;
   }
 
+  function _clearSocketGame() {
+    setSocketState((current) => ({
+      ...current,
+      roomId : undefined,
+      gameStatus: undefined
+    }));
+  }
+
   function _setRoomId(roomId: string | undefined) {
     setSocketState((current) => ({
       ...current,
@@ -64,6 +72,7 @@ export default function useWebsocketsState() {
   const _actions_ = {
     connectSocket: _connectSocket,
     enterQueue: _enterQueue,
+    clearSocketGame: _clearSocketGame,
   };
 
   return [socketState, _actions_] as [typeof socketState, typeof _actions_];

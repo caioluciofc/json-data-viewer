@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { authService } from '../services/authentication.service';
-import { toast } from 'react-hot-toast';
 import { Socket } from 'socket.io-client';
-import { gameService } from '../services/game.service';
 
 interface GetNextQuestionResponse {
   question: Question;
+  players: string[];
+  score: { [key: string] : number };
 }
 
 interface Question {
@@ -23,6 +22,7 @@ export interface GameState {
   question?: string;
   answers?: string[];
   isLoading: boolean;
+  score? : { [key: string] : number};
   waitingNextQuestion: boolean;
   gameResult?: 'win' | 'lost' | 'draw';
 }
@@ -40,10 +40,19 @@ export default function useGameState() {
     waitingNextQuestion: true,
     isLoading: true,
     gameResult: undefined,
+    score: undefined,
   });
 
   useEffect(() => {
-    if (gameState.question && !gameState.gameOn) {
+    if (gameState.question && !gameState.gameOn && gameState.players) {
+      if (gameState.players.length === 2) {
+        const player1 : string = gameState.players[0] ?? ""
+        const player2 : string = gameState.players[1] ?? ""
+        const score = { ...gameState.score }
+        score[player1] = 0
+        score[player2] = 0
+        _setGameScore(score)
+      }
       _setGameOn(true);
     }
   }, [gameState.question]);
@@ -59,9 +68,12 @@ export default function useGameState() {
       gameStatus: undefined,
       gameOn: false,
       question: undefined,
+      answers: undefined,
       players: undefined,
       playerAnswer: undefined,
+      score: undefined,
       waitingNextQuestion: true,
+      gameResult: undefined
     }));
   }
 
@@ -101,10 +113,24 @@ export default function useGameState() {
     }));
   }
 
+  function _setGameScore(score : { [key: string] : number}) {
+    setGameState((current) => ({
+      ...current,
+      score : score
+    }))
+  }
+
+  function _setPlayers(players : string[]) {
+    setGameState((current) => ({
+      ...current,
+      players : players
+    }))
+  }
+
   function _answerQuestion(socket: Socket, answer: string, username: string) {
     _setWaitingNextQuestion();
     socket.emit('player-answer', { answer, username }, (response: any) => {
-      console.log(response);
+      _setGameScore(response.score)
       if (response.roundStatus === 'NEXTQUESTION') {
         _getNextQuestion(socket);
       } else if (response.roundStatus === 'FINISHED') {
@@ -121,6 +147,10 @@ export default function useGameState() {
 
   function _getNextQuestion(socket: Socket) {
     socket.emit('get-question', gameState.roomId, (response: GetNextQuestionResponse) => {
+      if (!gameState.players) {
+        _setPlayers(response.players)
+      }
+      _setGameScore(response.score)
       const question = response.question;
       _setCurrentQuestion(question);
     });
@@ -136,6 +166,8 @@ export default function useGameState() {
     setGameOn: _setGameOn,
     setRoomId: _setRoomId,
     setGameResult: _setGameResult,
+    setGameScore: _setGameScore,
+    setPlayers: _setPlayers,
     setCurrentQuestion: _setCurrentQuestion,
     getNextQuestion: _getNextQuestion,
   };

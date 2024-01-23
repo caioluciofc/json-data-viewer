@@ -7,6 +7,7 @@ import { useDataTable } from './states/data-table.state';
 import useAuthState from './states/authentication.state';
 import useWebsocketsState from './states/websockets.state';
 import useGameState, { GameState } from './states/game.state';
+import { useOldManState } from './states/old-man.state';
 
 export const AppContext = createContext<AppProviderType | undefined>(undefined);
 
@@ -32,6 +33,7 @@ export default function AppProvider({ children }: Props) {
   const [authState, authActions] = useAuthState();
   const [socketState, socketActions] = useWebsocketsState();
   const [gameState, gameActions] = useGameState();
+  const [oldManState, oldManActions] = useOldManState();
   const gameStateRef = useRef<GameState>();
 
   useEffect(() => {
@@ -54,12 +56,14 @@ export default function AppProvider({ children }: Props) {
     if (socketState.socket) {
       const io = socketState.socket;
 
-      const onStartGame = () => {
-        console.log('onStartGame');
+      const onStartGame = (response : any) => {
         gameActions.getNextQuestion(io);
       };
 
       const onNextRound = (response: any) => {
+        if (response.score) {
+          gameActions.setGameScore(response.score)
+        }
         if (response.roundStatus == 'FINISHED') {
           if (response.result === 'DRAW') {
             gameActions.setGameResult('draw');
@@ -70,7 +74,6 @@ export default function AppProvider({ children }: Props) {
           }
         } else if (gameStateRef?.current?.waitingNextQuestion) {
           gameActions.getNextQuestion(io);
-          console.log(gameStateRef);
         }
       };
 
@@ -94,6 +97,7 @@ export default function AppProvider({ children }: Props) {
     authState,
     socketState,
     gameState,
+    oldManState
   };
 
   //  ╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
@@ -104,6 +108,7 @@ export default function AppProvider({ children }: Props) {
     ...authActions,
     ...socketActions,
     ...gameActions,
+    ...oldManActions,
   };
 
   return (

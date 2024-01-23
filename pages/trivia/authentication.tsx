@@ -13,8 +13,12 @@ import { JumpingQuestion } from '../../components/jumping_question';
 import { TextField } from '@/design_system';
 import { OldMan } from '@/components/old_man_auth';
 
+interface Props {
+  text : string
+}
+
 export default function TriviaAuth() {
-  const { authState, signin, signup } = useAppContext();
+  const { authState, signin, signup, setOldManText } = useAppContext();
 
   const router = useRouter();
 
@@ -27,17 +31,20 @@ export default function TriviaAuth() {
       toast.error('Missing details!');
       return;
     }
-
     setIsSubmitting(true);
+    setOldManText("Great, I'm signing you in!")
 
     try {
       await signin(username, password);
       setIsSubmitting(false);
       if (authState.authToken) {
         router.push('/trivia/trivia-menu');
+      } else {
+        setOldManText("Oooops, your username or password is not correct!")
       }
     } catch {
       setIsSubmitting(false);
+      setOldManText("Oooops, your username or password is not correct!")
       toast.error('Username or password is not correct!');
     }
   };
@@ -63,7 +70,9 @@ export default function TriviaAuth() {
   return (
     <main style={styles.main}>
       <div style={styles.menu}>
+
         <OldMan />
+        
           <TextField 
             type='text'
             defaultValue=''
