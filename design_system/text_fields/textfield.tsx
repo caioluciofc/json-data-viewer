@@ -6,12 +6,13 @@ interface Props {
   defaultValue: string;
   onChange: (value: string) => void;
   isDisabled: boolean;
+  type: string
 }
 
-export function TextField({ defaultValue, isDisabled, onChange }: Props) {
+export function TextField({ defaultValue, isDisabled, onChange, type }: Props) {
   return (
     <input
-      type="text"
+      type={type}
       defaultValue={defaultValue}
       disabled={isDisabled}
       style={styles.input}

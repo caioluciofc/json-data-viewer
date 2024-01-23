@@ -1,7 +1,7 @@
 'use client'; // This is a client component 👈🏽
 
 import React, { useEffect, useState } from 'react';
-import { TitleLarge } from '@/design_system';
+import { PrimaryButton, TitleLarge } from '@/design_system';
 import { styles } from '../../design_system/styles/trivia.style';
 import Link from 'next/link';
 import { Avatar } from '@/components';
@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast';
 import AppProvider from '@/src/app.provider';
 import { useRouter } from 'next/router';
 import { JumpingQuestion } from '../../components/jumping_question';
+import { TextField } from '@/design_system';
 
 export default function TriviaAuth() {
   const { authState, signin } = useAppContext();
@@ -20,9 +21,7 @@ export default function TriviaAuth() {
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSignin = async (event: any) => {
-    event.preventDefault();
-
+  const handleSignin = async () => {
     if (username === '' || password === '') {
       toast.error('Missing details!');
       return;
@@ -50,34 +49,23 @@ export default function TriviaAuth() {
         <div style={styles.header}>
           <TitleLarge text="Trivia Master" />
         </div>
-        <form onSubmit={handleSignin} method="POST">
-          <input
-            type="username"
-            defaultValue="caiolu"
-            placeholder="username"
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-          />
-          <input
-            type="password"
-            placeholder="password"
-            defaultValue="caiolu"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className={`${
-              isSubmitting ? 'bg-slate-600' : 'bg-slate-800'
-            } text-white active:bg-slate-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150`}>
-            {isSubmitting && (
-              <i className="fas fa-circle-notch animate-spin text-white mx-auto text-1xl mr-2"></i>
-            )}
-          </button>
-        </form>
+          <TextField 
+            type='text'
+            defaultValue=''
+            isDisabled={false}
+            onChange={setUsername}
+            />
+          <TextField
+            type='password'
+            defaultValue=''
+            isDisabled={false}
+            onChange={setPassword}
+            />
+          <PrimaryButton
+            text='Sign In'
+            onClick={() => handleSignin()}
+            isLoading={isSubmitting}
+            />
       </div>
     </main>
   );
